@@ -28,12 +28,12 @@ export default function Todo({ id, text, onDelete, onEdit }: TodoProps) {
             type="text"
             value={editedText}
             onChange={(e) => setEditedText(e.target.value)}
-            className="flex-1 px-3 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
             autoFocus
           />
           <button
             onClick={handleSave}
-            className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+            className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
           >
             Save
           </button>
@@ -42,23 +42,23 @@ export default function Todo({ id, text, onDelete, onEdit }: TodoProps) {
               setIsEditing(false);
               setEditedText(text);
             }}
-            className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+            className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
           >
             Cancel
           </button>
         </div>
       ) : (
         <>
-          <span className="flex-1">{text}</span>
+          <span className="flex-1 text-gray-900">{text}</span>
           <button
             onClick={() => setIsEditing(true)}
-            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
           >
             Edit
           </button>
           <button
             onClick={() => onDelete(id)}
-            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
           >
             Delete
           </button>

@@ -38,7 +38,7 @@ export default function TodoList() {
   return (
     <div className="max-w-2xl mx-auto p-4">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Arthur&apos;s To-Do List</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">Arthur&apos;s To-Do List</h1>
         <div className="flex gap-2">
           <input
             type="text"
@@ -46,11 +46,11 @@ export default function TodoList() {
             onChange={(e) => setNewTodo(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addTodo()}
             placeholder="Add a new todo..."
-            className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
           />
           <button
             onClick={addTodo}
-            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Add
           </button>
@@ -70,7 +70,7 @@ export default function TodoList() {
       </ul>
       
       {todos.length === 0 && (
-        <p className="text-center text-gray-500">No todos yet. Add one above!</p>
+        <p className="text-center text-gray-700">No todos yet. Add one above!</p>
       )}
     </div>
   );
