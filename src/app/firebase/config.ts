@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAnalytics } from 'firebase/analytics';
+import { getAnalytics, isSupported, Analytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC8st65tnS7bI-jl1HOryGQlZdQOdvGV5A",
@@ -15,4 +15,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const analytics = getAnalytics(app);
+
+// Initialize Analytics only if supported
+let analytics: Analytics | null = null;
+isSupported().then(yes => yes && (analytics = getAnalytics(app)));
+export { analytics };
