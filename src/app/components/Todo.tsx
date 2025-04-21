@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 interface TodoProps {
-  id: number;
+  id: string;
   text: string;
-  onDelete: (id: number) => void;
-  onEdit: (id: number, newText: string) => void;
+  onDelete: (id: string) => void;
+  onEdit: (id: string, newText: string) => void;
 }
 
 export default function Todo({ id, text, onDelete, onEdit }: TodoProps) {
@@ -52,7 +52,7 @@ export default function Todo({ id, text, onDelete, onEdit }: TodoProps) {
           <span className="flex-1 text-gray-900">{text}</span>
           <button
             onClick={() => setIsEditing(true)}
-            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
           >
             Edit
           </button>

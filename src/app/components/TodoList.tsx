@@ -2,38 +2,26 @@
 
 import { useState } from 'react';
 import Todo from './Todo';
-
-interface TodoItem {
-  id: number;
-  text: string;
-}
+import { useFirebaseTodos } from '../hooks/useFirebaseTodos';
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const { todos, loading, addTodo, deleteTodo, editTodo } = useFirebaseTodos();
   const [newTodo, setNewTodo] = useState('');
 
-  const addTodo = () => {
+  const handleAddTodo = () => {
     if (newTodo.trim()) {
-      setTodos([
-        ...todos,
-        {
-          id: Date.now(),
-          text: newTodo.trim()
-        }
-      ]);
+      addTodo(newTodo.trim());
       setNewTodo('');
     }
   };
 
-  const deleteTodo = (id: number) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  const editTodo = (id: number, newText: string) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, text: newText } : todo
-    ));
-  };
+  if (loading) {
+    return (
+      <div className="max-w-2xl mx-auto p-4">
+        <p className="text-center text-gray-700">Loading todos...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -44,13 +32,13 @@ export default function TodoList() {
             type="text"
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+            onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
             placeholder="Add a new todo..."
             className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
           />
           <button
-            onClick={addTodo}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            onClick={handleAddTodo}
+            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Add
           </button>
