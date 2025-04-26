@@ -1,6 +1,9 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+'use client';
+
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAnalytics, isSupported, Analytics } from 'firebase/analytics';
+import { getAuth, Auth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,11 +15,42 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+// Check if all required config values are present
+const missingConfig = Object.entries(firebaseConfig)
+  .filter(([_, value]) => !value)
+  .map(([key]) => key);
 
-// Initialize Analytics only if supported
+if (missingConfig.length > 0) {
+  console.error('Missing Firebase configuration values:', missingConfig);
+}
+
+// Initialize Firebase
+let app: FirebaseApp;
+let db: Firestore;
+let auth: Auth;
 let analytics: Analytics | null = null;
-isSupported().then(yes => yes && (analytics = getAnalytics(app)));
-export { analytics };
+
+try {
+  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+  console.log('Firebase initialized successfully');
+  
+  db = getFirestore(app);
+  auth = getAuth(app);
+
+  // Initialize Analytics only if supported
+  if (typeof window !== 'undefined') {
+    isSupported().then(yes => {
+      if (yes) {
+        analytics = getAnalytics(app);
+        console.log('Analytics initialized successfully');
+      } else {
+        console.log('Analytics not supported in this environment');
+      }
+    });
+  }
+} catch (error) {
+  console.error('Error initializing Firebase:', error);
+  throw error;
+}
+
+export { db, auth, analytics };
